@@ -1,0 +1,123 @@
+package com.andriginting.internshiptest.view;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+
+import com.andriginting.internshiptest.R;
+import com.andriginting.internshiptest.util.UserPreference;
+import com.andriginting.internshiptest.view.fragment.DataranRendahFragment;
+import com.andriginting.internshiptest.view.fragment.DataranTinggiFragment;
+import com.andriginting.internshiptest.view.fragment.PantaiFragment;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+
+    FloatingActionButton fab;
+
+    public static String TAG_KATEGORI_TINGGI = "1";
+    public static String TAG_KATEGORI_RENDAH = "2";
+    public static String TAG_KATEGORI_PANTAI= "3";
+    public static int CURRENT_TAG_NUMBER = 0;
+    public static String CURRENT_TAG= "Dataran Tinggi";
+
+    UserPreference userPreference;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        getSupportActionBar().setTitle("Gits Tempat Wisata");
+
+       fab = findViewById(R.id.fab_add_content);
+       fab.setOnClickListener(this);
+
+       userPreference = new UserPreference(this);
+        if (savedInstanceState == null){
+            CURRENT_TAG_NUMBER = 0;
+            loadFragment();
+        }
+
+
+    }
+
+    private Fragment goToFragment(){
+        switch (CURRENT_TAG_NUMBER){
+            case 0 :
+                DataranTinggiFragment tinggiFragment = new DataranTinggiFragment();
+                return tinggiFragment;
+            case 1 :
+                DataranRendahFragment rendahFragment = new DataranRendahFragment();
+                return  rendahFragment;
+            case 2:
+                PantaiFragment pantaiFragment = new PantaiFragment();
+                return pantaiFragment;
+                default:
+                    return new DataranTinggiFragment();
+        }
+    }
+    private void loadFragment(){
+                Fragment fragment = goToFragment();
+                FragmentTransaction ft  = getSupportFragmentManager().beginTransaction();
+                ft.setCustomAnimations(android.R.anim.fade_in,android.R.anim.fade_out);
+                ft.replace(R.id.frame_container_wisata,fragment,CURRENT_TAG);
+                ft.commit();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        Fragment fragment =null;
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        switch (id){
+            case R.id.logout:{
+                userPreference.isLogin(UserPreference.PREF_IS_LOGIN,false);
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                finish();
+                break;
+            }
+            case R.id.menu_item_kategori_rendah:{
+                CURRENT_TAG_NUMBER =1;
+                break;
+            }
+            case R.id.menu_item_kategori_pantai:{
+                CURRENT_TAG_NUMBER =2;
+                break;
+            }
+        }
+
+        if (item.isChecked()){
+            item.setChecked(true);
+        }
+
+        if (fragment !=null){
+            fragmentTransaction.replace(R.id.frame_container_wisata,fragment);
+            fragmentTransaction.commit();
+        }else{
+            loadFragment();
+        }
+        return true;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.fab_add_content:
+                Intent uploadIntent = new Intent(MainActivity.this,UploadActivity.class);
+                startActivity(uploadIntent);
+        }
+    }
+}

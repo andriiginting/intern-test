@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Internship Test</string>
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="login_hint">Login</string>
+    <string name="register_hint">Create an Account !</string>
+    <string name="text_holder">Text Holder</string>
+    <string name="register_text">Register</string>
+    <string name="first_name_hint">First Name</string>
+    <string name="last_name_hint">Last Name</string>
+    <string name="holiday_holder">Holiday Holder</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="location_hint">Location</string>
+    <string name="title_hint">Title</string>
+    <string name="category_hint">Category</string>
+    <string name="description_hint">Description detail</string>
+    <string name="firstname_hint">First Name</string>
+    <string name="birthdate_hint">Birthdate (mm/dd/yyyy)</string>
+    <string name="phone_number_hint">Phone Number</string>
+</resources>
