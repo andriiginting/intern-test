@@ -31,7 +31,7 @@ public interface ApiInterface {
     //untuk upload data ke API
     @Multipart
     @POST("post/data/upload")
-    Call<ApiResponse> getUpload(@Body UploadDataModel uploadDataModel);
+    Call<WisataResponse> getUpload(@Body UploadDataModel model);
 
     //untuk filter data kategori 1,2,3
     @GET("get/filter/dataalam?")

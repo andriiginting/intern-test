@@ -169,7 +169,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             Intent intent = new Intent(this,UploadActivity.class);
             intent.putExtra(IMAGE_KEY,bytesArray);
-            intent.putExtra(IMAGE_URL_UPLOAD,fileName);
             startActivity(intent);
         }
     }
