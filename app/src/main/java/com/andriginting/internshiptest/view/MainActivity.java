@@ -24,7 +24,6 @@ import com.andriginting.internshiptest.view.fragment.DataranTinggiFragment;
 import com.andriginting.internshiptest.view.fragment.PantaiFragment;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
@@ -43,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static String CURRENT_TAG= "Dataran Tinggi";
 
     UserPreference userPreference;
-    File fileName;
+    String fileName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -161,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 selected.compress(Bitmap.CompressFormat.JPEG,100,outputStream);
                 bytesArray  = outputStream.toByteArray();
 
-                fileName = new File(image);
+                fileName = image;
 
 
             }catch (FileNotFoundException e){
@@ -169,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             Intent intent = new Intent(this,UploadActivity.class);
             intent.putExtra(IMAGE_KEY,bytesArray);
+            intent.putExtra(IMAGE_URL_UPLOAD,fileName);
             startActivity(intent);
         }
     }

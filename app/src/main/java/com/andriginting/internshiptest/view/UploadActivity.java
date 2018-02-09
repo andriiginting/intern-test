@@ -15,7 +15,6 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.andriginting.internshiptest.R;
-import com.andriginting.internshiptest.model.UploadDataModel;
 import com.andriginting.internshiptest.model.WisataResponse;
 import com.andriginting.internshiptest.network.ApiClient;
 import com.andriginting.internshiptest.network.ApiInterface;
@@ -65,6 +64,7 @@ implements View.OnClickListener{
 
         bundle = getIntent().getExtras();
         byte[] bytes = bundle.getByteArray(IMAGE_KEY);
+        fileUrl = bundle.getString(IMAGE_URL_UPLOAD);
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
 
         imageWisata.setImageBitmap(bitmap);
@@ -84,14 +84,19 @@ implements View.OnClickListener{
         category = rbSelectedCategory.getText().toString();
 
         ApiInterface apiInterface = ApiClient.getRetrofitClient().create(ApiInterface.class);
-        UploadDataModel model = new UploadDataModel(title,location,category,description,uploadUID,fileUrl);
-        Call<WisataResponse> uploadDataModelCall = apiInterface.getUpload(model);
+//        UploadDataModel model = new UploadDataModel(title,location,category,description,uploadUID,fileUrl);
+        Call<WisataResponse> uploadDataModelCall = apiInterface.getUpload(title,
+                location,category,description,uploadUID,fileUrl);
 
         uploadDataModelCall.enqueue(new Callback<WisataResponse>() {
             @Override
             public void onResponse(Call<WisataResponse> call, Response<WisataResponse> response) {
-                if (response.isSuccessful()){
+                if (response.body().status == "true"){
                     Toast.makeText(getApplicationContext(), "Upload Success! ", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext() ,MainActivity.class));
+                    finish();
+                }else{
+                    Toast.makeText(getApplicationContext(), "Something Wrong! ", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -114,8 +119,7 @@ implements View.OnClickListener{
     public void onClick(View view) {
         if (view.getId() == R.id.button_upload){
             uploadWisata();
-            startActivity(new Intent(this,MainActivity.class));
-            finish();
+
         }
     }
 

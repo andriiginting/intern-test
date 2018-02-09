@@ -3,11 +3,11 @@ package com.andriginting.internshiptest.network;
 import com.andriginting.internshiptest.model.ApiResponse;
 import com.andriginting.internshiptest.model.LoginModel;
 import com.andriginting.internshiptest.model.RegisterModel;
-import com.andriginting.internshiptest.model.UploadDataModel;
 import com.andriginting.internshiptest.model.WisataResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
@@ -31,7 +31,12 @@ public interface ApiInterface {
     //untuk upload data ke API
     @Multipart
     @POST("post/data/upload")
-    Call<WisataResponse> getUpload(@Body UploadDataModel model);
+    Call<WisataResponse> getUpload(@Field("judul") String judul,
+                                   @Field("location") String location,
+                                   @Field("kategori") String kategori,
+                                   @Field("deskripsi") String deskripsi,
+                                   @Field("id_user") String idUser,
+                                   @Field ("image") String image);
 
     //untuk filter data kategori 1,2,3
     @GET("get/filter/dataalam?")
