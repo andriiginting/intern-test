@@ -1,11 +1,17 @@
 package com.andriginting.internshiptest.view;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,6 +22,15 @@ import com.andriginting.internshiptest.util.UserPreference;
 import com.andriginting.internshiptest.view.fragment.DataranRendahFragment;
 import com.andriginting.internshiptest.view.fragment.DataranTinggiFragment;
 import com.andriginting.internshiptest.view.fragment.PantaiFragment;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
+import static com.andriginting.internshiptest.view.UploadActivity.IMAGE_GALLERY;
+import static com.andriginting.internshiptest.view.UploadActivity.IMAGE_KEY;
+import static com.andriginting.internshiptest.view.UploadActivity.IMAGE_NAME;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -28,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static String CURRENT_TAG= "Dataran Tinggi";
 
     UserPreference userPreference;
+    File fileName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,8 +132,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.fab_add_content:
-                Intent uploadIntent = new Intent(MainActivity.this,UploadActivity.class);
-                startActivity(uploadIntent);
+                Intent chooseImage = new Intent(Intent.ACTION_PICK);
+                chooseImage.setType("image/*");
+                startActivityForResult(chooseImage,IMAGE_GALLERY);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        byte[] bytesArray = null;
+        if (resultCode == RESULT_OK ){
+            try{
+                Uri imageSelected = data.getData();
+                InputStream imageStream = getContentResolver().openInputStream(imageSelected);
+
+                Bitmap selected = BitmapFactory.decodeStream(imageStream);
+
+                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+                Cursor cursor = getContentResolver().query(imageSelected,
+                        filePathColumn, null, null, null);
+                cursor.moveToFirst();
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String image = cursor.getString(columnIndex);
+                cursor.close();
+
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                selected.compress(Bitmap.CompressFormat.JPEG,100,outputStream);
+                bytesArray  = outputStream.toByteArray();
+
+                fileName = new File(image);
+
+
+            }catch (FileNotFoundException e){
+                Log.e("error",e.getMessage());
+            }
+            Intent intent = new Intent(this,UploadActivity.class);
+            intent.putExtra(IMAGE_KEY,bytesArray);
+            intent.putExtra(IMAGE_NAME,fileName);
+            startActivity(intent);
         }
     }
 }

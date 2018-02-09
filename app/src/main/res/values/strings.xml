@@ -19,4 +19,6 @@
     <string name="firstname_hint">First Name</string>
     <string name="birthdate_hint">Birthdate (mm/dd/yyyy)</string>
     <string name="phone_number_hint">Phone Number</string>
+    <string name="description_hint_upload">Write a Description...</string>
+    <string name="title_upload">Title</string>
 </resources>
