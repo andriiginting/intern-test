@@ -30,7 +30,7 @@ import java.io.InputStream;
 
 import static com.andriginting.internshiptest.view.UploadActivity.IMAGE_GALLERY;
 import static com.andriginting.internshiptest.view.UploadActivity.IMAGE_KEY;
-import static com.andriginting.internshiptest.view.UploadActivity.IMAGE_NAME;
+import static com.andriginting.internshiptest.view.UploadActivity.IMAGE_URL_UPLOAD;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             Intent intent = new Intent(this,UploadActivity.class);
             intent.putExtra(IMAGE_KEY,bytesArray);
-            intent.putExtra(IMAGE_NAME,fileName);
+            intent.putExtra(IMAGE_URL_UPLOAD,fileName);
             startActivity(intent);
         }
     }

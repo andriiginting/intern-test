@@ -37,6 +37,36 @@
         android:layout_height="wrap_content"
         android:hint="@string/location_hint"
         android:layout_margin="@dimen/margin_standard"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Category"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="@dimen/margin_standard"/>
+    <RadioGroup
+        android:id="@+id/rg_category_upload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/margin_standard">
+        <RadioButton
+            android:id="@+id/rb_dataran_tinggi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dataran tinggi"/>
+        <RadioButton
+            android:id="@+id/rb_dataran_rendah"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dataran rendah"/>
+        <RadioButton
+            android:id="@+id/rb_pantai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pantai"/>
+    </RadioGroup>
     <Button
         android:id="@+id/button_upload"
         android:layout_width="match_parent"

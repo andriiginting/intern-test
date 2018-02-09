@@ -8,8 +8,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class ApiClient {
-    public static final String BASE_URL = "isi";
-    public static final String IMAGE_URL = "isi";
+    public static final String BASE_URL = "http://dev.gits.id:1090/index.php/api/";
+    public static final String IMAGE_URL = "http://dev.gits.id:1090/index.php/​api/alamku/uploads/images/​";
     public static Retrofit retrofit = null;
 
     public static Retrofit getRetrofitClient(){
